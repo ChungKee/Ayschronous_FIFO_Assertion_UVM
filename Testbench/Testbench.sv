@@ -29,7 +29,7 @@ module test;
       .empty(empty)  
     );
 
-    bind myAFIFO AFIFO_Property AFFP(
+    bind AsynchronousFIFO AFIFO_Property AFFP(
     .Wclk(Wclk),
     .Rclk(Rclk),
     .Wresetn(Wresetn),
