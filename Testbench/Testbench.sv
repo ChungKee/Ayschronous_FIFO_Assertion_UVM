@@ -1,7 +1,7 @@
 `include "AsynFIFO_SVA.sv"
 
 module test;
-    parameter DataSize = 8;
+    parameter DataSize = 3;
     parameter AddrSize = 3;
 
     bit Wclk    = 0;
@@ -10,7 +10,7 @@ module test;
     bit Rresetn = 0;
     bit Push    = 0;
     bit Pop    = 0;
-    bit [DataSize - 1]DataIn  = 0;
+    bit [DataSize - 1]DataIn;
     bit [DataSize - 1]DataOut;
     bit full,empty;
 
@@ -29,7 +29,8 @@ module test;
       .empty(empty)  
     );
 
-    bind AsynchronousFIFO AFIFO_Property AFFP(
+    bind AsynchronousFIFO AFIFO_Property#(.DataSize(DataSize), .AddrSize(AddrSize))
+    AFFP(
     .Wclk(Wclk),
     .Rclk(Rclk),
     .Wresetn(Wresetn),

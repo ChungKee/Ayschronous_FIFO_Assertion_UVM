@@ -36,8 +36,40 @@ module AFIFO_Property #
         @(posedge Rclk) !Rresetn |-> empty;
     endproperty
     
-    AResetEmpty: assert property (ResetEmpty) 
-    else   $display("Fail reset empty");
+    property ResetFull;
+        @(posedge Wclk) !Wresetn |-> !full;
+    endproperty
 
+    property EmptyNoFull;
+        @(posedge Rclk) disable iff (!Rresetn) 
+        @(posedge Rclk) empty |=> @(posedge Wclk) ##1 (!full);
+    endproperty
+
+    property EmptyDontChangeReadPtr;
+        @(posedge Rclk) disable iff (!Rresetn) empty |=> $stable(ReadPtr);
+    endproperty
+
+    property FullNoEmpty;
+        @(posedge Wclk) disable iff (!Wresetn) 
+        @(posedge Wclk) full |=> @(posedge Rclk) ##1 (!empty);
+    endproperty
+
+    property FullDontChangeWritePtr;
+        @(posedge Wclk) disable iff (!Wresetn) full |=> $stable(WritePtr);
+    endproperty
+
+
+    AResetEmpty: assert property (ResetEmpty) 
+    else   $display("Reset Empty must be 1");
+    AResetFull: assert property (ResetFull) 
+    else   $display("Reset Full must be 0");
+    AEmptyNoFull: assert property (EmptyNoFull) 
+    else   $display("Empty and full at the same time");
+    AEmptyDontChangeReadPtr: assert property (EmptyDontChangeReadPtr) 
+    else   $display("Empty and the ReadPtr change");
+    AFullNoEmpty: assert property (FullNoEmpty) 
+    else   $display("Full and empty at the same time");
+    AFullDontChangeWritePtr: assert property (FullDontChangeWritePtr) 
+    else   $display("Full and the WritePtr change");
 
 endmodule

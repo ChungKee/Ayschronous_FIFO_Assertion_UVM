@@ -16,5 +16,8 @@
 6. full  --> WritePtr don't change
 7. full  --> mem[R] = mem[W] , W == R
 
+
+## Design (due 12/17)
+
 ## UVM Testbench overview (due 12/17)
 - maybe use 2 agent(read/write) to verify asychronous FIFO
