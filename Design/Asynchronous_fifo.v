@@ -131,16 +131,16 @@ TwoFlipFlopSynchronizer #(PtrWidth) My2ffsynWrite
 (
 .clk(Wclk),
 .reset(Wresetn),
-.DataIn(GrayReadPtr),
-.DataOut(SynGrayReadPtr)
+.DataIn(GrayWritePtr),
+.DataOut(SynGrayWritePtr)
 );
 
 TwoFlipFlopSynchronizer #(PtrWidth) My2ffsynRead
 (
 .clk(Rclk),
 .reset(Rresetn),
-.DataIn(GrayWritePtr),
-.DataOut(SynGrayWritePtr)
+.DataIn(GrayReadPtr),
+.DataOut(SynGrayReadPtr)
 );
 
 WritePointerHandle #(PtrWidth) MyWPH
