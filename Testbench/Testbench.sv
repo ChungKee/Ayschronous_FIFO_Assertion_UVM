@@ -55,6 +55,9 @@ module test;
         @(posedge Wclk);
         DataIn <= 10;
         Push   <= 1;
+        repeat(6) @(posedge Wclk);
+        Pop <= 1;
+        Push <= 0;
     end
    
     initial begin

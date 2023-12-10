@@ -117,7 +117,7 @@ input Wresetn, Rresetn;
 input Push, Pop;
 input [DataSize - 1 : 0] DataIn;
 
-output reg [DataSize - 1 : 0] DataOut;
+output [DataSize - 1 : 0] DataOut;
 output reg full, empty;
 
 parameter PtrWidth = $clog2(AddrSize);
@@ -165,25 +165,11 @@ ReadPointerHandle #(PtrWidth) MyRPH
 .empty(empty)
 );
 
-always @(posedge Wclk or negedge Wresetn) begin
-    if(!Wresetn)begin
-        
-    end
-    else begin
-        if(Push && !full)begin
-            buffer[WritePtr] <= DataIn;
-        end
+always @(posedge Wclk) begin
+    if(Push && !full)begin
+        buffer[WritePtr] <= DataIn;
     end
 end
+assign DataOut = buffer[ReadPtr];
 
-always @(posedge Rclk or negedge Rresetn) begin
-    if(!Rresetn)begin
-        
-    end
-    else begin
-        if(Pop && !empty)begin
-            DataOut <= buffer[ReadPtr];
-        end
-    end
-end
 endmodule
