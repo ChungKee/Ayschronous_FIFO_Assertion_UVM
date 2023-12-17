@@ -6,7 +6,7 @@
 ## Online IDE
 - https://edaplayground.com/x/AkW8
 
-## Assertion List (due 12/10)
+## Assertion List 
 1. empty --> !full
 2. full  --> !empty
 3. !Rresetn --> empty 1
@@ -15,9 +15,9 @@
 5. empty --> ReadPtr don't change
 6. full  --> WritePtr don't change
 7. full  --> mem[R] = mem[W] , W == R
+8. full  --> !write 
+9. empty --> !read
 
-
-## Design (due 12/17)
-
-## UVM Testbench overview (due 12/17)
-- maybe use 2 agent(read/write) to verify asychronous FIFO
+## UVM Testbench overview
+- Complete create a overview testbench(12/17) 
+- maybe use 2 agent(read/write) to verify asychronous FIFO (due 12/25)

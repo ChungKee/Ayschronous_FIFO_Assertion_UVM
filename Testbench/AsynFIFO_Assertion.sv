@@ -58,6 +58,14 @@ module AFIFO_Property #
         @(posedge Wclk) disable iff (!Wresetn) full |=> $stable(WritePtr);
     endproperty
 
+    property FullCannotWrite;
+        @(posedge Wclk) full |-> !Push
+    endproperty
+    
+    property EmptyCannotRead;
+        @(posedge Rclk) empty |-> !Pop
+    endproperty
+
 
     AResetEmpty: assert property (ResetEmpty) 
     else   $display("Reset Empty must be 1");
@@ -71,5 +79,8 @@ module AFIFO_Property #
     else   $display("Full and empty at the same time");
     AFullDontChangeWritePtr: assert property (FullDontChangeWritePtr) 
     else   $display("Full and the WritePtr change");
-
+    FullCannotWrite: assert property (FullCannotWrite) 
+    else   $display("Full cannot write data");
+    EmptyCannotRead: assert property (EmptyCannotRead) 
+    else   $display("Empty cannot read data");
 endmodule
