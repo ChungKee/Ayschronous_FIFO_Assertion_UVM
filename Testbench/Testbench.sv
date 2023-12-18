@@ -1,69 +1,65 @@
+`include "uvm_macros.svh"
+import uvm_pkg::*;
+
 `include "AsynFIFO_SVA.sv"
+`include "AsynFIFO_interface.sv"
+`include "AsynFIFO_sequence_item.sv"
+`include "AsynFIFO_sequence.sv"
+`include "AsynFIFO_WriteDriver.sv"
+`inlcude "AsynFIFO_test.sv"
 
 module test;
     parameter DataSize = 3;
     parameter AddrSize = 3;
-
-    bit Wclk    = 0;
-    bit Rclk    = 0;
-    bit Wresetn = 0;
-    bit Rresetn = 0;
-    bit Push    = 0;
-    bit Pop    = 0;
-    bit [DataSize - 1]DataIn;
-    bit [DataSize - 1]DataOut;
-    bit full,empty;
-
+    
+    AsynchronouFIFO_interface #(DataSize) Afifo_if();
+    
     AsynchronousFIFO #(DataSize,AddrSize) myAFIFO
     (
-      .Wclk(Wclk), 
-      .Rclk(Rclk), 
-      .Wresetn(Wresetn), 
-      .Rresetn(Rresetn), 
-      .Push(Push), 
-      .Pop(Pop), 
-      .DataIn(DataIn), 
+      .Wclk(Afifo_if.Wclk), 
+      .Rclk(Afifo_if.Rclk), 
+      .Wresetn(Afifo_if.Wresetn), 
+      .Rresetn(Afifo_if.Rresetn), 
+      .Push(Afifo_if.Push), 
+      .Pop(Afifo_if.Pop), 
+      .DataIn(Afifo_if.DataIn), 
       
-      .DataOut(DataOut), 
-      .full(full), 
-      .empty(empty)  
+      .DataOut(Afifo_if.DataOut), 
+      .full(Afifo_if.full), 
+      .empty(Afifo_if.empty)  
     );
 
     bind AsynchronousFIFO AFIFO_Property#(.DataSize(DataSize), .AddrSize(AddrSize))
     AFFP(
-    .Wclk(Wclk),
-    .Rclk(Rclk),
-    .Wresetn(Wresetn),
-    .Rresetn(Rresetn),
-    .Push(Push),
-    .Pop(Pop),
-    .DataIn(DataIn),
-    .DataOut(DataOut),
-    .full(full),
-    .empty(empty),
-    .WritePtr(WritePtr),
-    .ReadPtr(ReadPtr)
+        .*
     );
   
-    always #20 Rclk = ~Rclk;
-    always #10 Wclk = ~Wclk;
-    
+    always #30 Afifo_if.Rclk = ~Afifo_if.Rclk;
+    always #40 Afifo_if.Wclk = ~Afifo_if.Wclk;
+
     initial begin
-        @(posedge Wclk);
-        Wresetn = 1;
-        Rresetn = 1;
-        @(posedge Wclk);
-        DataIn <= 10;
-        Push   <= 1;
-        repeat(6) @(posedge Wclk);
-        Pop <= 1;
-        Push <= 0;
+        Afifo_if.Rclk = 0;
+        @(posedge Afifo_if.Rclk)
+        Afifo_if.Rresetn = 0;
+        @(posedge Afifo_if.Rclk)
+        Afifo_if.Rresetn = 1;
+    end
+    initial begin
+        Afifo_if.Wclk = 0;
+        @(posedge Afifo_if.Wclk)
+        Afifo_if.Wresetn = 0;
+        @(posedge Afifo_if.Wclk)
+        Afifo_if.Wresetn = 1;
     end
    
     initial begin
+        uvm_config_db#(virtual AsynchronouFIFO_interface)::set(null, "*", "Afifo_if", Afifo_if);
+        run_test("AsynFIFO_test")
+    end
+
+    initial begin
         $dumpfile("dump.vcd");
         $dumpvars;
-        #2000 $finish();
     end
   
 endmodule

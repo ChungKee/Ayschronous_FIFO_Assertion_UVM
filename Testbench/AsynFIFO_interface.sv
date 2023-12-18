@@ -6,7 +6,7 @@ interface AsynchronouFIFO_interface #(
     logic Wresetn; 
     logic Rresetn;
     logic Push;
-    logic  Pop;
+    logic Pop;
     logic [DataSize - 1 : 0] DataIn;
     logic [DataSize - 1 : 0] DataOut;
     logic full;
