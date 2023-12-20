@@ -19,7 +19,7 @@ class AsynFIFO_env extends uvm_env;
     endfunction
   
     virtual function void connect_phase(uvm_phase phase);
-        super.connect_phase(phase)
+        super.connect_phase(phase);
 
     endfunction
  

@@ -1,12 +1,15 @@
+`timescale 1ns / 1ps
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 
-`include "AsynFIFO_SVA.sv"
+`include "AsynFIFO_Assertion.sv"
 `include "AsynFIFO_interface.sv"
 `include "AsynFIFO_sequence_item.sv"
 `include "AsynFIFO_sequence.sv"
 `include "AsynFIFO_WriteDriver.sv"
-`inlcude "AsynFIFO_test.sv"
+`include "AsynFIFO_WriteAgent.sv"
+`include "AsynFIFO_env.sv"
+`include "AsynFIFO_test.sv"
 
 module test;
     parameter DataSize = 3;
@@ -33,28 +36,16 @@ module test;
     AFFP(
         .*
     );
-  
-    always #30 Afifo_if.Rclk = ~Afifo_if.Rclk;
-    always #40 Afifo_if.Wclk = ~Afifo_if.Wclk;
-
     initial begin
         Afifo_if.Rclk = 0;
-        @(posedge Afifo_if.Rclk)
-        Afifo_if.Rresetn = 0;
-        @(posedge Afifo_if.Rclk)
-        Afifo_if.Rresetn = 1;
-    end
-    initial begin
         Afifo_if.Wclk = 0;
-        @(posedge Afifo_if.Wclk)
-        Afifo_if.Wresetn = 0;
-        @(posedge Afifo_if.Wclk)
-        Afifo_if.Wresetn = 1;
-    end
+    end  
+    always #30 Afifo_if.Rclk = ~Afifo_if.Rclk;
+    always #40 Afifo_if.Wclk = ~Afifo_if.Wclk;
    
     initial begin
         uvm_config_db#(virtual AsynchronouFIFO_interface)::set(null, "*", "Afifo_if", Afifo_if);
-        run_test("AsynFIFO_test")
+        run_test("AsynFIFO_test");
     end
 
     initial begin

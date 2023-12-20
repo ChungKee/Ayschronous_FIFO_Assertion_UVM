@@ -1,3 +1,12 @@
+class AsynFIFO_WriteAgent_config extends uvm_object;
+    `uvm_object_utils(AsynFIFO_WriteAgent_config)
+    function new(string inst = "AsynFIFO_WriteAgent_config");
+        super.new(inst);
+    endfunction
+
+    uvm_active_passive_enum is_active = UVM_ACTIVE;
+endclass : AsynFIFO_WriteAgent_config
+
 class AsynFIFO_WriteAgent extends uvm_agent;
     `uvm_component_utils(AsynFIFO_WriteAgent)
 
