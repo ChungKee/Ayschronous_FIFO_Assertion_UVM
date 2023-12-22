@@ -2,7 +2,8 @@ class AsynFIFO_test extends uvm_test;
 
     `uvm_component_utils(AsynFIFO_test)
 
-    AsynFIFO_sequence seqr;
+    AsynFIFO_ReadSequence Rseqr;
+    AsynFIFO_WriteSequence Wseqr;
     AsynFIFO_env env;  
   
     function new(input string inst = "AsynFIFO_test", uvm_component parent);
@@ -11,8 +12,8 @@ class AsynFIFO_test extends uvm_test;
     
     virtual function void build_phase(uvm_phase phase);
         super.build_phase(phase);
-        //sequence = AsynFIFO_sequence::type_id::create("sequence",this);
-        seqr = AsynFIFO_sequence::type_id::create("seqr");
+        Wseqr = AsynFIFO_WriteSequence::type_id::create("WriteSeqr");
+        Rseqr = AsynFIFO_ReadSequence::type_id::create("ReadSeqr");
         env = AsynFIFO_env::type_id::create("env",this);
 
     endfunction
@@ -20,7 +21,10 @@ class AsynFIFO_test extends uvm_test;
     virtual task run_phase(uvm_phase phase);
         phase.raise_objection(this);
         for(int i = 0; i < 5; i++)begin
-            seqr.start(env.WriteAgent.seqr);
+            fork
+            Wseqr.start(env.WriteAgent.seqr);
+            Rseqr.start(env.ReadAgent.seqr);
+            join
             #100;
         end
         `uvm_info("ASYNFIFO_TEST","END",UVM_NONE)

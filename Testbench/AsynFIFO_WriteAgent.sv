@@ -10,7 +10,7 @@ endclass : AsynFIFO_WriteAgent_config
 class AsynFIFO_WriteAgent extends uvm_agent;
     `uvm_component_utils(AsynFIFO_WriteAgent)
 
-    //AsynFIFO_WriteMonitor WriteMonitor;
+    AsynFIFO_WriteMonitor WriteMonitor;
     AsynFIFO_WriteDriver WriteDriver;    
     AsynFIFO_WriteAgent_config cfg;
     uvm_sequencer#(AsynFIFO_sequence_item) seqr;
@@ -21,7 +21,7 @@ class AsynFIFO_WriteAgent extends uvm_agent;
   
     virtual function void build_phase(uvm_phase phase);
         super.build_phase(phase);
-        //WriteMonitor = AsynFIFO_WriteMonitor::type_id::create("WriteMonitor",this);
+        WriteMonitor = AsynFIFO_WriteMonitor::type_id::create("WriteMonitor",this);
         cfg = AsynFIFO_WriteAgent_config::type_id::create("cfg");
         if (cfg.is_active == UVM_ACTIVE) begin
             WriteDriver = AsynFIFO_WriteDriver::type_id::create("WriteDriver",this);

@@ -1,7 +1,7 @@
 class AsynFIFO_WriteDriver extends uvm_driver #(AsynFIFO_sequence_item);
     `uvm_component_utils(AsynFIFO_WriteDriver)
     
-    virtual  AsynchronouFIFO_interface  Afifo_if ;
+    virtual AsynchronouFIFO_interface  Afifo_if;
     AsynFIFO_sequence_item tr;
  
     
