@@ -19,9 +19,10 @@ class AsynFIFO_ReadDriver extends uvm_driver #(AsynFIFO_sequence_item);
     virtual task run_phase(uvm_phase phase);
         forever begin
             seq_item_port.get_next_item(tr);
-                Afifo_if.Rresetn = tr.Rresetn;
-                Afifo_if.Pop = tr.Pop;
-                @(posedge Afifo_if.Rclk);  
+                @(Afifo_if.R_drv.R_cbd);  
+                Afifo_if.R_drv.R_cbd.Rresetn <= tr.Rresetn;
+                Afifo_if.R_drv.R_cbd.Pop     <= tr.Pop;
+                `uvm_info("ReadDriver", $sformatf("Rresetn = %d",Afifo_if.Rresetn),UVM_NONE);
             seq_item_port.item_done();
         end
     

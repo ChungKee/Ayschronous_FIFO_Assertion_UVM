@@ -2,7 +2,7 @@
 class AsynFIFO_env extends uvm_env;
     `uvm_component_utils(AsynFIFO_env)
 
-    //AsynFIFO_scoreboard scoreboard;
+    AsynFIFO_scoreboard scoreboard;
     AsynFIFO_WriteAgent WriteAgent;
     AsynFIFO_ReadAgent ReadAgent;  
   
@@ -12,7 +12,7 @@ class AsynFIFO_env extends uvm_env;
   
     virtual function void build_phase(uvm_phase phase);
         super.build_phase(phase);
-        //scoreboard = AsynFIFO_scoreboard::type_id::create("scoreboard",this);
+        scoreboard = AsynFIFO_scoreboard::type_id::create("scoreboard",this);
         WriteAgent = AsynFIFO_WriteAgent::type_id::create("WriteAgent",this);
         ReadAgent = AsynFIFO_ReadAgent::type_id::create("ReadAgent",this);
 
@@ -20,7 +20,8 @@ class AsynFIFO_env extends uvm_env;
   
     virtual function void connect_phase(uvm_phase phase);
         super.connect_phase(phase);
-
+        WriteAgent.WriteMonitor.send.connect(scoreboard.recv);
+        ReadAgent.ReadMonitor.send.connect(scoreboard.recv);
     endfunction
  
 endclass : AsynFIFO_env

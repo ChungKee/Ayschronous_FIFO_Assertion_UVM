@@ -13,6 +13,7 @@ import uvm_pkg::*;
 `include "AsynFIFO_ReadDriver.sv"
 `include "AsynFIFO_ReadMonitor.sv"
 `include "AsynFIFO_ReadAgent.sv"
+`include "AsynFIFO_scoreboard.sv"
 `include "AsynFIFO_env.sv"
 `include "AsynFIFO_test.sv"
 

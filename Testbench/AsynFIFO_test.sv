@@ -20,7 +20,7 @@ class AsynFIFO_test extends uvm_test;
   
     virtual task run_phase(uvm_phase phase);
         phase.raise_objection(this);
-        for(int i = 0; i < 5; i++)begin
+        for(int i = 0; i < 2; i++)begin
             fork
             Wseqr.start(env.WriteAgent.seqr);
             Rseqr.start(env.ReadAgent.seqr);

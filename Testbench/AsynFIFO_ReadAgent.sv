@@ -21,13 +21,12 @@ class AsynFIFO_ReadAgent extends uvm_agent;
   
     virtual function void build_phase(uvm_phase phase);
         super.build_phase(phase);
-        ReadMonitor = AsynFIFO_ReadMonitor::type_id::create("ReadMonitor",this);
         cfg = AsynFIFO_ReadAgent_config::type_id::create("cfg");
         if (cfg.is_active == UVM_ACTIVE) begin
             ReadDriver = AsynFIFO_ReadDriver::type_id::create("ReadDriver",this);
             seqr = uvm_sequencer#(AsynFIFO_sequence_item)::type_id::create("seqr",this);
         end
-        
+        ReadMonitor = AsynFIFO_ReadMonitor::type_id::create("ReadMonitor",this);
     endfunction
   
     virtual function void connect_phase(uvm_phase phase);
