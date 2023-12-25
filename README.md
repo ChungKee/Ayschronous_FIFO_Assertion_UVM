@@ -11,12 +11,10 @@
 2. full  --> !empty
 3. !Rresetn --> empty 1
 4. !Wresetn --> full  0 
-(Check the other value after reset)
 5. empty --> ReadPtr don't change
 6. full  --> WritePtr don't change
-7. full  --> mem[R] = mem[W] , W == R
-8. full  --> !write 
-9. empty --> !read
+7. full  --> !write 
+8. empty --> !read
 
 ## UVM Testbench overview
 - Complete create a overview testbench
