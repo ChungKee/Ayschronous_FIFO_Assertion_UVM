@@ -11,7 +11,7 @@ interface AsynchronouFIFO_interface #(
     logic [DataSize - 1 : 0] DataOut;
     logic full;
     logic empty;
-
+/*
     clocking W_cbd @(posedge Wclk);
         output Wresetn;
         output Push;
@@ -41,5 +41,5 @@ interface AsynchronouFIFO_interface #(
     modport W_mon (clocking W_cbm);
     modport R_drv (clocking R_cbd);
     modport R_mon (clocking R_cbm);
-
+*/
 endinterface //AsynchronouFIFO_interface

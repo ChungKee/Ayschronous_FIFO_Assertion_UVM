@@ -19,10 +19,10 @@ class AsynFIFO_WriteDriver extends uvm_driver #(AsynFIFO_sequence_item);
     virtual task run_phase(uvm_phase phase);
         forever begin
             seq_item_port.get_next_item(tr);
-                @(Afifo_if.W_drv.W_cbd);  
-                Afifo_if.W_drv.W_cbd.Wresetn <= tr.Wresetn;
-                Afifo_if.W_drv.W_cbd.Push    <= tr.Push;
-                Afifo_if.W_drv.W_cbd.DataIn  <= tr.DataIn; 
+                @(posedge Afifo_if.Wclk);  
+                Afifo_if.Wresetn <= tr.Wresetn;
+                Afifo_if.Push    <= (Afifo_if.full) ? 0 : tr.Push;
+                Afifo_if.DataIn  <= tr.DataIn; 
                 `uvm_info("WriteDriver", $sformatf("Wresetn = %d",Afifo_if.Wresetn),UVM_NONE);  
             seq_item_port.item_done();
         end

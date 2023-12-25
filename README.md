@@ -19,5 +19,5 @@
 9. empty --> !read
 
 ## UVM Testbench overview
-- Complete create a overview testbench(12/17) 
-- maybe use 2 agent(read/write) to verify asychronous FIFO (due 12/25)
+- Complete create a overview testbench
+- Use 2 agent(read/write) to verify asychronous FIFO 

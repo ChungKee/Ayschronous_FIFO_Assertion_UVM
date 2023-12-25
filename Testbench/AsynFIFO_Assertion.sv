@@ -59,11 +59,11 @@ module AFIFO_Property #
     endproperty
 
     property FullCannotWrite;
-        @(posedge Wclk) full |-> !Push;
+        @(posedge Wclk) disable iff (!Wresetn) full |=> !Push;
     endproperty
     
     property EmptyCannotRead;
-        @(posedge Rclk) empty |-> !Pop;
+        @(posedge Rclk) disable iff (!Rresetn) empty |=> !Pop;
     endproperty
 
 

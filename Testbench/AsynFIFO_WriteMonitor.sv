@@ -19,11 +19,15 @@ class AsynFIFO_WriteMonitor extends uvm_monitor;
 
     virtual task run_phase(uvm_phase phase);
         forever begin
-            @(Afifo_if.W_mon.W_cbm);
-            tr.Wresetn = Afifo_if.W_mon.W_cbm.Wresetn;            
-            tr.Push    = Afifo_if.W_mon.W_cbm.Push;
-            tr.DataIn  = Afifo_if.W_mon.W_cbm.DataIn;
-            `uvm_info("WriteMon",$sformatf("Wresetn = %d",Afifo_if.W_mon.W_cbm.Wresetn),UVM_NONE);
+            @(negedge Afifo_if.Wclk);
+            tr.Wresetn = Afifo_if.Wresetn;
+            tr.Rresetn = Afifo_if.Rresetn;            
+            tr.Push    = Afifo_if.Push;
+            tr.DataIn  = Afifo_if.DataIn;
+            tr.DataOut = Afifo_if.DataOut;
+            tr.full    = Afifo_if.full;
+            tr.empty   = Afifo_if.empty;
+            `uvm_info("WriteMon",$sformatf("Wresetn = %d",Afifo_if.Wresetn),UVM_NONE);
             send.write(tr);
         end
     endtask

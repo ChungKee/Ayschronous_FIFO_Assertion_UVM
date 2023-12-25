@@ -18,12 +18,15 @@ class AsynFIFO_ReadMonitor extends uvm_monitor;
 
     virtual task run_phase(uvm_phase phase);
         forever begin
-            @(Afifo_if.R_mon.R_cbm);
-            tr.Rresetn = Afifo_if.R_mon.R_cbm.Rresetn;            
-            tr.Pop     = Afifo_if.R_mon.R_cbm.Pop;
+            @(negedge Afifo_if.Rclk)
+            tr.Wresetn = Afifo_if.Wresetn;
+            tr.Rresetn = Afifo_if.Rresetn;            
+            tr.Pop     = Afifo_if.Pop;
+            tr.DataIn  = Afifo_if.DataIn;
             tr.DataOut = Afifo_if.DataOut;
+            tr.full    = Afifo_if.full;
+            tr.empty   = Afifo_if.empty;
             `uvm_info("ReadMon", $sformatf("Rresetn = %d",tr.Rresetn),UVM_NONE);
-            `uvm_info("ReadMon", $sformatf("Dataout = %d",tr.DataOut),UVM_NONE);
             send.write(tr);
         end
     endtask      
